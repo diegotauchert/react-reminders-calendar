@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom';
 import moment from "moment";
 
 import {
@@ -7,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "./styles/main.scss";
+import "./main.scss";
 
 export default class Calendar extends Component {
   weekdayshort = moment.weekdays();
@@ -211,6 +212,7 @@ export default class Calendar extends Component {
       }
     );
   };
+  
   render() {
     let weekdayshortname = this.weekdayshort.map((day) => {
       return <th key={day}>{day}</th>;
@@ -258,7 +260,7 @@ export default class Calendar extends Component {
     });
 
     return (
-      <div className="app">
+      
       <div className="calendar">
         <div className="calendar-nav">
           <span
@@ -303,7 +305,6 @@ export default class Calendar extends Component {
             </table>
           </div>
         )}
-      </div>
       </div>
     );
   }
