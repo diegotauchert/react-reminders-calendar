@@ -12,35 +12,6 @@ function App({ latitude, longitude }) {
   const [city, setCity] = useState();
   const [country, setCountry] = useState([]);
 
-  /*getWeatherIcon = (rangeId) => {
-    switch(true){
-      case rangeId >= 200 && rangeId <= 232:
-        setWeatherIcon('wi-thunderstorm');
-        break;
-      case rangeId >= 300 && rangeId <= 321:
-        setWeatherIcon(this.weatherIcon.Drizzle);
-        break;
-      case rangeId >= 500 && rangeId <= 531:
-        setWeatherIcon(this.weatherIcon.Rain);
-        break;
-      case rangeId >= 600 && rangeId <= 622:
-        setWeatherIcon(this.weatherIcon.Snow);
-        break;
-      case rangeId >= 701 && rangeId <= 781:
-        setWeatherIcon(this.weatherIcon.Atmosphere);
-        break;
-      case rangeId === 800:
-        setWeatherIcon(this.weatherIcon.Clear);
-        break;
-      case rangeId >= 801 && rangeId <= 804:
-        setWeatherIcon('wi-day-fog');
-        break;
-      default:
-        setWeatherIcon(this.weatherIcon.Clouds);
-        break;
-    }
-  };*/
-
   useEffect(() => {
     GeolocationService.getForecasts(latitude, longitude)
       .then(res => {

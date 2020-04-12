@@ -25,7 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export class Appointment extends Component {
+export class Reminder extends Component {
 
   constructor() {
     super();
@@ -89,7 +89,7 @@ export class Appointment extends Component {
                 />
               </Grid>
               <Grid>
-                <TextField label="Name" inputProps={{ maxLength: 30 }} name='name' onChange={this.handleChange}/>
+                <TextField label="Reminder" inputProps={{ maxLength: 30 }} name='name' onChange={this.handleChange}/>
               </Grid>
               <Grid>
                 <TextField label="City" name='city' inputProps={{ maxLength: 15 }} onChange={this.handleChange}/>
@@ -100,10 +100,9 @@ export class Appointment extends Component {
                     id="time-picker"
                     format="hh:mm"
                     label="Time"
+                    clearable
                     value={moment(new Date(), 'hh:mm')}
-                    onChange={
-                      time => this.handleChange
-                    }
+                    onChange={date => this.handleChange}
                     KeyboardButtonProps={{
                       'aria-label': 'change time',
                     }}

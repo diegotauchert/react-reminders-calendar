@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import {
   faArrowAltCircleRight,
   faArrowAltCircleLeft,
@@ -8,7 +10,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './main.scss';
-import { Appointment } from './appointment';
+import { Reminder } from '../reminder-modal/Reminder';
 import { AppointmentService } from '../../Services/AppointmentService';
 import { AppointmentList } from '../appointment-list/Appointment';
 
@@ -159,6 +161,7 @@ export default class Calendar extends Component {
           <span className="day-number">
             {d}
           </span>
+          
           {this.renderList(currentFullDate)}
         </td>,
       );
@@ -193,14 +196,28 @@ export default class Calendar extends Component {
   };
 
   renderList = (data) => {
-    return <AppointmentList lista={this.state.Appointments.filter(item => parseInt(item.day,0) === parseInt(data,0))} />;
+    const list = this.state.Appointments.filter(item => parseInt(item.day,0) === parseInt(data,0));
+
+    if(list.length > 0){
+      return (
+          <>
+          <div className="delete-all">
+            <IconButton edge="end" aria-label="delete" className="delete">
+              <DeleteIcon size="small" label="" />
+              <small>delete all</small>
+            </IconButton>
+          </div>
+          <AppointmentList lista={list} />
+          </>
+      );
+    } 
   };
 
   render() {
     return (
       <>
         {this.state.selectedDay !== null &&
-        <Appointment
+        <Reminder
           date={this.state.selectedDay}
           save={(e) => {
             this.setState({ selectedDay: null });

@@ -7,8 +7,8 @@ import Clock from './components/clock';
 function App() {
   return (
     <>
-      <Clock />
       <Geolocation />
+      <Clock />
       <Calendar />
     </>
   );
