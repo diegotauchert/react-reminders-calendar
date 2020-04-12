@@ -22,7 +22,6 @@ export default class Calendar extends Component {
       showMonth: false,
       date: moment(),
       allmonths: moment.months(),
-      showYearNav: false,
       selectedDay: null,
       Appointments: []
     };
@@ -40,7 +39,14 @@ export default class Calendar extends Component {
 
   year = () => this.state.date.format('Y');
 
-  currentDay = () => this.state.date.format('D');
+  currentDay = () => this.state.date.format('DMMY');
+
+  currentDate = () => {
+    let today = new Date();
+    today = today.getDate()+(String(today.getMonth() + 1).padStart(2, '0'))+today.getFullYear();
+
+    return today;
+  }
 
   month = () => this.state.date.format('MMMM');
 
@@ -144,14 +150,16 @@ export default class Calendar extends Component {
     }
     const daysInMonth = [];
     for (let d = 1; d <= this.state.date.daysInMonth(); d++) {
-      const currentDay = d === this.currentDay() ? 'today' : '';
+      const currentFullDate = d+this.state.date.format('MM')+this.year();
+      const currentDay = (currentFullDate) === this.currentDate() ? 'today' : '';
+      
       // let selectedClass = (d === this.state.selectedDay ? " selected-day " : "")
       daysInMonth.push(
-        <td key={d} className={`calendar-day ${currentDay}`} onClick={this.onDayClick(d)}>
-          <span>
+        <td key={d} className={`calendar-day ${currentDay}`} onClick={this.onDayClick(currentFullDate)}>
+          <span className="day-number">
             {d}
-            {this.renderList(d)}
           </span>
+          {this.renderList(currentFullDate)}
         </td>,
       );
     }
@@ -183,8 +191,9 @@ export default class Calendar extends Component {
   getList = () => {
     this.setState({ Appointments: AppointmentService.getList() });
   };
+
   renderList = (data) => {
-    return <AppointmentList lista={this.state.Appointments.filter(item => item.dia === data)}/>;
+    return <AppointmentList lista={this.state.Appointments.filter(item => parseInt(item.day,0) === parseInt(data,0))} />;
   };
 
   render() {

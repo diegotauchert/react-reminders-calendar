@@ -7,6 +7,11 @@ export class AppointmentService {
     window.localStorage.setItem('Appointments', JSON.stringify(appointments));
   }
 
+  static delete(e) {
+    
+    alert('Appointment Deleted');
+  }
+
   static getList() {
     return (window.localStorage.getItem('Appointments')) ?
       JSON.parse(window.localStorage.getItem('Appointments')) : [];

@@ -7,6 +7,10 @@
 }
 body {
   font-family: "Raleway", sans-serif;
+  background-image:url('./assets/bg.jpg');
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position: center;
 }
 #root{
   display:flex;

@@ -1,20 +1,45 @@
 import React, { Component } from 'react';
+
+import moment from 'moment';
+
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import { 
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker 
+} from "@material-ui/pickers";
+
+import DateFnsUtils from "@date-io/date-fns";
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+import Box from '@material-ui/core/Box';
+import ColorPicker from 'material-ui-color-picker';
+
 import { AppointmentService } from '../../Services/AppointmentService';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export class Appointment extends Component {
 
-  state = {
-    nome: '',
-    cidade: '',
-    hora: '',
-    dia: ''
-  };
+  constructor() {
+    super();
+    this.state = {
+      name: '',
+      city: '',
+      hour: null,
+      day: null,
+      color: null,
+    };
+  }
 
   componentDidMount() {
-    this.setState({ dia: this.props.date });
+    this.setState({ day: this.props.date });
   }
 
   saveAppointment = () => {
@@ -22,7 +47,7 @@ export class Appointment extends Component {
     this.props.save(true);
   };
 
-  handleChange = (event) => {
+  handleChange = (event, data) => {
     let state = this.state;
     const { value, name } = event.target;
     state[name] = value;
@@ -30,27 +55,72 @@ export class Appointment extends Component {
     console.table(this.state);
   };
 
+  handleClose = (event) => {
+    this.props.save(true);
+  };
+
   render() {
     return (
-      <Grid container>
-        <form>
-          <Grid>
-            <span>{this.props.date}</span>
+      <>
+      <div>
+      <Dialog
+        open
+        onClose={this.handleClose}
+        TransitionComponent={Transition}
+        keepMounted
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        
+        <DialogContent>
+        <DialogTitle id="alert-dialog-title">New Reminder: {this.props.date}</DialogTitle>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <Grid container>
+            <form>
+              <Grid>
+                <ColorPicker
+                  name='color'
+                  label='Color'
+                  name='hour'
+                  onChange={
+                    color => this.handleChange
+                  }
+                  value={this.state.color}
+                />
+              </Grid>
+              <Grid>
+                <TextField label="Name" inputProps={{ maxLength: 30 }} name='name' onChange={this.handleChange}/>
+              </Grid>
+              <Grid>
+                <TextField label="City" name='city' inputProps={{ maxLength: 15 }} onChange={this.handleChange}/>
+              </Grid>
+              <Grid>
+                  <KeyboardTimePicker
+                    margin="normal"
+                    id="time-picker"
+                    format="hh:mm"
+                    label="Time"
+                    value={moment(new Date(), 'hh:mm')}
+                    onChange={
+                      time => this.handleChange
+                    }
+                    KeyboardButtonProps={{
+                      'aria-label': 'change time',
+                    }}
+                  />
+              </Grid>
+              <Grid>
+                <Box my={2} bgcolor="background.paper">
+                  <Button m={10} variant="contained" onClick={this.saveAppointment}>Save</Button>
+                </Box>
+              </Grid>
+            </form>
           </Grid>
-          <Grid>
-            <TextField label="Nome" name='nome' onChange={this.handleChange}/>
-          </Grid>
-          <Grid>
-            <TextField label="Cidade" name='cidade' onChange={this.handleChange}/>
-          </Grid>
-          <Grid>
-            <TextField label="Hora" type='time' name='hora' onChange={this.handleChange}/>
-          </Grid>
-          <Grid>
-            <Button variant="contained" onClick={this.saveAppointment}>Salvar</Button>
-          </Grid>
-        </form>
-      </Grid>
+        </MuiPickersUtilsProvider>
+        </DialogContent>
+      </Dialog>
+      </div>
+      </>
     );
   }
 }

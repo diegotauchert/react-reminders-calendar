@@ -71,14 +71,35 @@
 			}
 			tbody {
 				tr {
-					td {
+					> td {
 						color: #334455;
 						cursor: pointer;
 						line-height: 4.03rem;
 						position: relative;
 						background-color: #FFF;
-						span {
+						span.day-number {
 							margin-left: 10px;
+						}
+						.reminder{
+							padding:2px 0 0px 10px;
+							span:first-child{
+								font-size:11px;
+							}
+							span:not(:first-child){
+								font-size:10px;
+								color:#333;
+								text-transform:uppercase;
+							}
+						}
+						.reminder-actions{
+							opacity:0;
+							button{
+								padding:5px;
+							}
+							svg{
+								width: 15px;
+								height: 15px;
+							}
 						}
 					}
 					>* {
@@ -107,6 +128,11 @@
 					*.calendar-day {
 						box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2125);
 						-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2125);
+						border-color: #EEE;
+						&:hover .reminder-card li:hover .reminder-actions{
+								opacity: 1;
+    						transition: opacity .3s linear;
+						}
 					}
 					>*.today {
 						color: #3296c8;
@@ -154,7 +180,10 @@
 					>* {
 						width: 81.66666666666667px;
 						padding: 5px;
-						line-height: 25px;
+						line-height: 4.3rem;
+						box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2125);
+						-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2125);
+						border-color: #EEE;
 						span {
 							display: block;
 							border-width: 1px;
@@ -164,11 +193,9 @@
 							-webkit-border-radius: 3px;
 						}
 						&:hover {
-							span {
 								border-color: #d0d0d0;
-								box-shadow: 0 1px 0 0 #efefef;
-								-webkit-box-shadow: 0 1px 0 0 #efefef;
-							}
+								box-shadow: inset 0 1px 1px #efefef;
+								-webkit-box-shadow: inset 0 1px 1px #efefef;
 						}
 					}
 				}
