@@ -5,7 +5,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import Divider from '@material-ui/core/Divider';
+
 import {
   faClock
 } from '@fortawesome/free-solid-svg-icons';
@@ -29,12 +31,15 @@ export class AppointmentList extends Component {
           <ListItem selected={!( index % 2 )} className="reminder">
             <ListItemText>
               <span>{item.name}</span><br />
-              <span>{item.city}</span>{' | '}
               <FontAwesomeIcon icon={faClock}/>
-              <span>{item.hour}</span>
+              <span>{item.hour}</span>{' | '}
+              <span>{item.city}</span>
             </ListItemText>
             <ListItemSecondaryAction className="reminder-actions">
-              <IconButton edge="end" aria-label="delete">
+              <IconButton aria-label="edit" className="edit">
+                <EditIcon size="small" />
+              </IconButton>
+              <IconButton edge="end" aria-label="delete" className="delete">
                 <DeleteIcon size="small" />
               </IconButton>
             </ListItemSecondaryAction>

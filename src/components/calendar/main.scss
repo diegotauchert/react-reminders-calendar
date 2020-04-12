@@ -95,6 +95,9 @@
 							opacity:0;
 							button{
 								padding:5px;
+								&.edit{
+									margin-right:-5px;
+								}
 							}
 							svg{
 								width: 15px;
