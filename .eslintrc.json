@@ -6,7 +6,6 @@
     "node": true,
     "jest": true
   },
-  "extends": ["plugin:react/recommended", "airbnb"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"

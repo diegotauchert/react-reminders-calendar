@@ -1,5 +1,4 @@
-import React, { Component,Fragment } from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
 import { geolocated } from "react-geolocated";
 
 import Weather from "../weather";

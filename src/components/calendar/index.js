@@ -1,49 +1,48 @@
-import React, { Component } from "react";
-import ReactDOM from 'react-dom';
-import moment from "moment";
-
+import React, { Component } from 'react';
+import moment from 'moment';
 import {
   faArrowAltCircleRight,
   faArrowAltCircleLeft,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from '@fortawesome/free-solid-svg-icons';
 
-import "./main.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import './main.scss';
+import { Appointment } from './appointment';
+import { AppointmentService } from '../../Services/AppointmentService';
+import { AppointmentList } from '../appointment-list/Appointment';
 
 export default class Calendar extends Component {
   weekdayshort = moment.weekdays();
 
-  state = {
-    showCalendar: true,
-    showMonth: false,
-    date: moment(),
-    allmonths: moment.months(),
-    showYearNav: false,
-    selectedDay: null,
-  };
+  constructor() {
+    super();
+    this.state = {
+      showCalendar: true,
+      showMonth: false,
+      date: moment(),
+      allmonths: moment.months(),
+      showYearNav: false,
+      selectedDay: null,
+      Appointments: []
+    };
+  }
 
   firstDayOfMonth = () => {
-    let date = this.state.date;
-    let firstDay = moment(date).startOf("month").format("d");
+    const { date } = this.state;
+    const firstDay = moment(date)
+      .startOf('month')
+      .format('d');
 
     return firstDay;
   };
 
-  daysInMonth = () => {
-    return this.state.date.daysInMonth();
-  };
 
-  year = () => {
-    return this.state.date.format("Y");
-  };
+  year = () => this.state.date.format('Y');
 
-  currentDay = () => {
-    return this.state.date.format("D");
-  };
+  currentDay = () => this.state.date.format('D');
 
-  month = () => {
-    return this.state.date.format("MMMM");
-  };
+  month = () => this.state.date.format('MMMM');
 
   showMonth = (e, month) => {
     this.setState({
@@ -53,18 +52,19 @@ export default class Calendar extends Component {
   };
 
   setMonth = (month) => {
-    let monthNo = this.state.allmonths.indexOf(month);
-    let date = Object.assign({}, this.state.date);
-    date = moment(date).set("month", monthNo);
+    const monthNo = this.state.allmonths.indexOf(month);
+    let date = this.state.date;
+    date = moment(date)
+      .set('month', monthNo);
     this.setState({
-      date: date,
+      date,
       showMonth: !this.state.showMonth,
       showCalendar: !this.state.showCalendar,
     });
   };
 
   MonthList = (props) => {
-    let months = [];
+    const months = [];
     props.data.map((data) => {
       months.push(
         <td
@@ -75,14 +75,14 @@ export default class Calendar extends Component {
           }}
         >
           <span>{data}</span>
-        </td>
+        </td>,
       );
     });
-    let rows = [];
+    const rows = [];
     let cells = [];
 
     months.forEach((row, i) => {
-      if (i % 3 !== 0 || i == 0) {
+      if (i % 3 !== 0 || i === 0) {
         cells.push(row);
       } else {
         rows.push(cells);
@@ -93,152 +93,70 @@ export default class Calendar extends Component {
 
     rows.push(cells);
 
-    let monthlist = rows.map((d, i) => {
-      return <tr>{d}</tr>;
-    });
+    const monthlist = rows.map((d, i) => <tr>{d}</tr>);
 
     return (
       <table className="calendar-month">
         <thead>
-          <tr>
-            <th colSpan="4">Select a Month</th>
-          </tr>
+        <tr>
+          <th colSpan="4">Select a Month</th>
+        </tr>
         </thead>
         <tbody>{monthlist}</tbody>
       </table>
     );
   };
 
-  onPrev = () => {
-    let curr = "";
+  onPrev = (e) => {
+    let curr = '';
     if (this.state.showMonth == true) {
-      curr = "year";
+      curr = 'year';
     } else {
-      curr = "month";
+      curr = 'month';
     }
     this.setState({
       date: this.state.date.subtract(1, curr),
     });
   };
-  onNext = () => {
-    let curr = "";
+
+  onNext = () => (e) => {
+    let curr = '';
     if (this.state.showMonth == true) {
-      curr = "year";
+      curr = 'year';
     } else {
-      curr = "month";
+      curr = 'month';
     }
     this.setState({
       date: this.state.date.add(1, curr),
     });
   };
-  setYear = (year) => {
-    // alert(year)
-    let date = Object.assign({}, this.state.date);
-    date = moment(date).set("year", year);
-    this.setState({
-      date: date,
-      showMonth: !this.state.showMonth,
-      showYearNav: !this.state.showYearNav,
-      showMonth: !this.state.showMonth,
-    });
-  };
-  onYearChange = (e) => {
-    this.setYear(e.target.value);
-  };
-  getDates(startDate, stopDate) {
-    var dateArray = [];
-    var currentDate = moment(startDate);
-    var stopDate = moment(stopDate);
-    while (currentDate <= stopDate) {
-      dateArray.push(moment(currentDate).format("YYYY"));
-      currentDate = moment(currentDate).add(1, "year");
-    }
-    return dateArray;
-  }
-  YearTable = (props) => {
-    let months = [];
-    let nextten = moment().set("year", props).add("year", 12).format("Y");
 
-    let tenyear = this.getDates(props, nextten);
-
-    tenyear.map((data) => {
-      months.push(
-        <td
-          key={data}
-          className="calendar-month"
-          onClick={(e) => {
-            this.setYear(data);
-          }}
-        >
-          <span>{data}</span>
-        </td>
-      );
-    });
-    let rows = [];
-    let cells = [];
-
-    months.forEach((row, i) => {
-      if (i % 3 !== 0 || i == 0) {
-        cells.push(row);
-      } else {
-        rows.push(cells);
-        cells = [];
-        cells.push(row);
-      }
-    });
-    rows.push(cells);
-    let yearlist = rows.map((d, i) => {
-      return <tr>{d}</tr>;
-    });
-
-    return (
-      <table className="calendar-month">
-        <thead>
-          <tr>
-            <th colSpan="4">Select a Yeah</th>
-          </tr>
-        </thead>
-        <tbody>{yearlist}</tbody>
-      </table>
-    );
+  onDayClick = (d) => (e) => {
+    this.setState({ selectedDay: d });
+    console.log('SELECTED DAY: ', this.state.selectedDay);
   };
-  onDayClick = (e, d) => {
-    this.setState(
-      {
-        selectedDay: d,
-      },
-      () => {
-        console.log("SELECTED DAY: ", this.state.selectedDay);
-      }
-    );
-  };
-  
-  render() {
-    let weekdayshortname = this.weekdayshort.map((day) => {
-      return <th key={day}>{day}</th>;
-    });
-    let blanks = [];
+
+
+  daysinmonth = () => {
+    const blanks = [];
     for (let i = 0; i < this.firstDayOfMonth(); i++) {
-      blanks.push(<td className="calendar-day empty">{""}</td>);
+      blanks.push(<td className="calendar-day empty"/>);
     }
-    let daysInMonth = [];
-    for (let d = 1; d <= this.daysInMonth(); d++) {
-      let currentDay = d == this.currentDay() ? "today" : "";
+    const daysInMonth = [];
+    for (let d = 1; d <= this.state.date.daysInMonth(); d++) {
+      const currentDay = d == this.currentDay() ? 'today' : '';
       // let selectedClass = (d == this.state.selectedDay ? " selected-day " : "")
       daysInMonth.push(
-        <td key={d} className={`calendar-day ${currentDay}`}>
-          <span
-            onClick={(e) => {
-              this.onDayClick(e, d);
-            }}
-          >
+        <td key={d} className={`calendar-day ${currentDay}`} onClick={this.onDayClick(d)}>
+          <span>
             {d}
+            {this.renderList(d)}
           </span>
-        </td>
+        </td>,
       );
     }
-    var totalSlots = [...blanks, ...daysInMonth];
-    let rows = [];
+    const totalSlots = [...blanks, ...daysInMonth];
+    const rows = [];
     let cells = [];
 
     totalSlots.forEach((row, i) => {
@@ -255,57 +173,77 @@ export default class Calendar extends Component {
       }
     });
 
-    let daysinmonth = rows.map((d, i) => {
-      return <tr>{d}</tr>;
-    });
+    return rows;
+  };
 
+  componentDidMount() {
+    this.getList();
+  }
+
+  getList = () => {
+    this.setState({ Appointments: AppointmentService.getList() });
+  };
+  renderList = (data) => {
+    return <AppointmentList lista={this.state.Appointments.filter(item => item.dia === data)}/>;
+  };
+
+  render() {
     return (
-      
-      <div className="calendar">
-        <div className="calendar-nav">
+      <>
+        {this.state.selectedDay !== null &&
+        <Appointment
+          date={this.state.selectedDay}
+          save={(e) => {
+            this.setState({ selectedDay: null });
+            this.getList();
+          }}/>}
+        <div className="calendar">
+          <div className="calendar-nav">
           <span
-            onClick={(e) => {
-              this.onPrev();
-            }}
-            class="calendar-button button-prev"
+            onClick={this.onPrev}
+            className="calendar-button button-prev"
           >
-            <FontAwesomeIcon icon={faArrowAltCircleLeft} />
+            <FontAwesomeIcon icon={faArrowAltCircleLeft}/>
           </span>
-          {!this.state.showMonth && (
-            <span
-              onClick={(e) => {
-                this.showMonth();
-              }}
-              class="calendar-month"
-            >
-              {this.month()} | {this.year()}
+            {!this.state.showMonth && (
+              <span
+                onClick={(e) => {
+                  this.showMonth();
+                }}
+                className="calendar-month"
+              >
+              {this.month()}
+                {' '}
+                |
+                {this.year()}
             </span>
-          )}
-          
-          <span
-            onClick={(e) => {
-              this.onNext();
-            }}
-            className="calendar-button button-next"
-          >
-            <FontAwesomeIcon icon={faArrowAltCircleRight} />
-          </span>
-        </div>
-        <div className="calendar-date">
-          {this.state.showMonth && <this.MonthList data={moment.months()} />}
-        </div>
+            )}
 
-        {this.state.showCalendar && (
-          <div className="calendar-date">
-            <table className="calendar-table">
-              <thead>
-                <tr>{weekdayshortname}</tr>
-              </thead>
-              <tbody>{daysinmonth}</tbody>
-            </table>
+            <span
+              onClick={this.onNext()}
+              className="calendar-button button-next"
+            >
+            <FontAwesomeIcon icon={faArrowAltCircleRight}/>
+          </span>
           </div>
-        )}
-      </div>
+          <div className="calendar-date">
+            {this.state.showMonth && <this.MonthList data={moment.months()}/>}
+          </div>
+          {this.state.showCalendar && (
+            <div className="calendar-date">
+              <table className="calendar-table">
+                <thead>
+                <tr>{this.weekdayshort.map((day) => <th key={day}>{day}</th>)}</tr>
+                </thead>
+                <tbody>
+                {this.daysinmonth()
+                  .map((d) => <tr>{d}</tr>)}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </>
     );
   }
 }
