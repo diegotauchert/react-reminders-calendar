@@ -109,7 +109,7 @@ export default class Calendar extends Component {
 
   onPrev = (e) => {
     let curr = '';
-    if (this.state.showMonth == true) {
+    if (this.state.showMonth === true) {
       curr = 'year';
     } else {
       curr = 'month';
@@ -121,7 +121,7 @@ export default class Calendar extends Component {
 
   onNext = () => (e) => {
     let curr = '';
-    if (this.state.showMonth == true) {
+    if (this.state.showMonth === true) {
       curr = 'year';
     } else {
       curr = 'month';
@@ -144,8 +144,8 @@ export default class Calendar extends Component {
     }
     const daysInMonth = [];
     for (let d = 1; d <= this.state.date.daysInMonth(); d++) {
-      const currentDay = d == this.currentDay() ? 'today' : '';
-      // let selectedClass = (d == this.state.selectedDay ? " selected-day " : "")
+      const currentDay = d === this.currentDay() ? 'today' : '';
+      // let selectedClass = (d === this.state.selectedDay ? " selected-day " : "")
       daysInMonth.push(
         <td key={d} className={`calendar-day ${currentDay}`} onClick={this.onDayClick(d)}>
           <span>
@@ -215,6 +215,7 @@ export default class Calendar extends Component {
               {this.month()}
                 {' '}
                 |
+                {' '}
                 {this.year()}
             </span>
             )}
