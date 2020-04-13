@@ -23,15 +23,18 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export class Reminder extends Component {
-  state = {
-    name: "",
-    city: "",
-    hour: new Date(),
-    day: null,
-    color: "",
-    modalOpen: false,
-    id: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      city: "",
+      hour: new Date(),
+      day: null,
+      color: "",
+      modalOpen: false,
+      id: null,
+    };
+  }
 
   componentDidMount() {
     this.setState({
