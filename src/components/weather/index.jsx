@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import Temperature from './Temperature';
-import { GeolocationService } from '../../Services/GeolocationService';
+import React, { useEffect, useState } from "react";
+import Temperature from "./Temperature";
+import { GeolocationService } from "../../Services/GeolocationService";
 
 function App({ latitude, longitude }) {
-
   const [temp, setTemp] = useState([]);
   const [feels_like, setFeelsLike] = useState([]);
   const [weather, setWeather] = useState([]);
@@ -14,7 +13,7 @@ function App({ latitude, longitude }) {
 
   useEffect(() => {
     GeolocationService.getForecasts(latitude, longitude)
-      .then(res => {
+      .then((res) => {
         setTemp(res.data.main.temp);
         setFeelsLike(res.data.main.feels_like);
         setWeather(res.data.weather[0].description);
@@ -23,9 +22,9 @@ function App({ latitude, longitude }) {
         setCity(res.data.name);
         setCountry(res.data.sys.country);
       })
-      .catch(err => console.error(err))
-      .finally(() => console.log('Voltou o Request'));
-  }, []);
+      .catch((err) => console.error(err))
+      .finally(() => console.log("Voltou o Request"));
+  }, [latitude, longitude]);
 
   return (
     <Temperature
@@ -38,6 +37,6 @@ function App({ latitude, longitude }) {
       className={classWeather}
     />
   );
-};
+}
 
 export default App;

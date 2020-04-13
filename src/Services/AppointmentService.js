@@ -4,10 +4,8 @@ export class AppointmentService {
       const appointments = window.localStorage.getItem("Appointments")
         ? JSON.parse(window.localStorage.getItem("Appointments"))
         : [];
-      appointments.push({
-        id: this.generateId(),
-        ...appointment,
-      });
+      appointment.id = this.generateId();
+      appointments.push(appointment);
       console.log(appointments);
       window.localStorage.setItem("Appointments", JSON.stringify(appointments));
     } else {

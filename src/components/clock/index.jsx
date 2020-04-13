@@ -1,21 +1,15 @@
-import React, {Component} from 'react';
-
-let time = new Date().toLocaleTimeString();
+import React, { Component } from "react";
 
 class Clock extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      time: new Date().toLocaleTimeString()
+      time: new Date().toLocaleTimeString(),
     };
   }
 
   componentDidMount() {
-    this.intervalID = setInterval(
-      () => this.tick(),
-      1000
-    );
+    this.intervalID = setInterval(() => this.tick(), 1000);
   }
   componentWillUnmount() {
     clearInterval(this.intervalID);
@@ -23,16 +17,16 @@ class Clock extends Component {
 
   tick() {
     this.setState({
-      time: new Date().toLocaleTimeString()
+      time: new Date().toLocaleTimeString(),
     });
   }
-  
+
   render() {
     return (
       <>
-      <div className="clock-widget">
+        <div className="clock-widget">
           <span className="clock">{this.state.time}</span>
-      </div>
+        </div>
       </>
     );
   }

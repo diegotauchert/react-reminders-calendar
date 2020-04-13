@@ -23,7 +23,7 @@ export class AppointmentList extends Component {
       this.props.lista.length > 0 && (
         <List className="reminder-card">
           {this.props.lista.map((item, index) => (
-            <>
+            <div key={`list-${index}`}>
               <ListItem className={`reminder reminder-${item.id}`}>
                 <div
                   className="bg-reminder"
@@ -61,7 +61,7 @@ export class AppointmentList extends Component {
                 </ListItemSecondaryAction>
               </ListItem>
               <Divider />
-            </>
+            </div>
           ))}
         </List>
       )

@@ -73,7 +73,7 @@ export default class Calendar extends Component {
 
   MonthList = (props) => {
     const months = [];
-    props.data.map((data) => {
+    props.data.forEach((data) => {
       months.push(
         <td
           key={data}
@@ -147,7 +147,7 @@ export default class Calendar extends Component {
   daysinmonth = () => {
     const blanks = [];
     for (let i = 0; i < this.firstDayOfMonth(); i++) {
-      blanks.push(<td className="calendar-day empty" />);
+      blanks.push(<td key={`td-${i}`} className="calendar-day empty" />);
     }
     const daysInMonth = [];
     for (let d = 1; d <= this.state.date.daysInMonth(); d++) {
@@ -282,8 +282,8 @@ export default class Calendar extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.daysinmonth().map((d) => (
-                    <tr>{d}</tr>
+                  {this.daysinmonth().map((d, i) => (
+                    <tr key={`tr-${i}`}>{d}</tr>
                   ))}
                 </tbody>
               </table>

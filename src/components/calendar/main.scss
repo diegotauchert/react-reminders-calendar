@@ -360,3 +360,45 @@
     font-size: 3.1rem;
   }
 }
+
+@media only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    border: 1px solid #ccc;
+  }
+
+  td,
+  th {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+  }
+
+  th:before,
+  td:before {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  .temperature-widget {
+    margin: 3rem 0;
+  }
+}
