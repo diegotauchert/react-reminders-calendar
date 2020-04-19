@@ -91,6 +91,7 @@
             }
             .reminder {
               padding: 2px 0 0px 10px;
+              margin-bottom: 3px;
               span:first-child {
                 font-size: 11px;
               }
@@ -346,6 +347,11 @@
   height: 100%;
   z-index: 1;
   opacity: 0.4;
+  border-radius: 7px;
+  &:hover {
+    opacity: 0.65;
+    transition: 1s;
+  }
 }
 .colorPicker {
   width: 30px;
